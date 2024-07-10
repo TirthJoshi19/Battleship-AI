@@ -73,7 +73,7 @@ h2 {
 }
 .sunk {
    background-color: rgb(243, 70, 70);
-   background-image: url('/assets/icons8-x-90.png');
+   background-image: url('./assets/icons8-x-90.png');
    background-size: cover;
    background-repeat: no-repeat;
     
@@ -102,7 +102,7 @@ h2 {
 
 .non-ship-cell {
    background-color: antiquewhite;
-   background-image: url(/assets/dot.png);
+   background-image: url(./assets/dot.png);
    background-size: contain;
    background-repeat: no-repeat;
 }
