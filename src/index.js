@@ -35,7 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   resetBtn.addEventListener('click', () => {
     placeFourShips();
+    setTurnUtil();
+  });
+
+  const winReset = document.getElementById('win-reset');
+
+  winReset.addEventListener('click', () => {
+    location.reload();
   });
   playerMove(playerBoard, computerBoard);
 });
+
+function setTurnUtil() {
+  const whoseTurnDiv = document.querySelector('.whoseTurn');
+  const whoseTurnH2 = whoseTurnDiv.querySelector('h2');
+  whoseTurnH2.textContent = `Player's Turn`;
+}
 export { playerBoard, computerBoard };

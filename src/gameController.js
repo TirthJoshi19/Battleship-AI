@@ -1,7 +1,16 @@
 import GameBoard from './gameBoard';
 import { playerBoard, computerBoard } from '.';
 
-const a = playerBoard;
+const resetBtn = document.querySelector('#resetBtn');
+
+let winner;
+let canClick = false;
+resetBtn.addEventListener('click', () => {
+  canClick = true;
+  isPlayerTurn = true; // Ensure the game starts with the player's turn
+  unavailableCells.clear(); // Clear unavailable cells for a fresh start
+  hitCellsQueue = []; // Clear hit cells queue for a fresh start\
+});
 let isPlayerTurn = true;
 
 const unavailableCells = new Set();
@@ -18,8 +27,9 @@ function playerMove(playerBoard, boardOfComputer) {
   });
 }
 
-function handlePlayerClick(cell) {
-  if (!isPlayerTurn) return;
+function handlePlayerClick(cell, boardOfComputer) {
+  if (!isPlayerTurn || !canClick) return;
+
   let hit = false;
   const cellId = getCellId(cell);
   const { row, col } = getRowAndCol(cellId);
@@ -27,18 +37,18 @@ function handlePlayerClick(cell) {
   if (cell.classList.contains('target')) {
     addClass(cell, 'sunk');
     hit = true;
-    computerBoard.receiveAttack(row, col);
-    ifWins(computerBoard, 'Player');
+    boardOfComputer.receiveAttack(row, col);
+    ifWins(boardOfComputer, 'Player');
   } else {
     addClass(cell, 'non-ship-cell');
   }
-  console.log(computerBoard.board);
+  console.log(boardOfComputer.board);
 
-  checkCell(cellId, computerBoard);
+  checkCell(cellId, boardOfComputer);
 
   // Switch to computer's turn
   if (hit) {
-    playerMove(computerBoard);
+    playerMove(boardOfComputer);
   } else {
     isPlayerTurn = false;
     whoseTurnUpdater();
@@ -54,20 +64,18 @@ function checkCell(cellId, board) {
 }
 
 export function computerMove(board) {
-  let availableCells = [];
-  const cells = document.querySelectorAll('.cell');
-  console.log(hitCellsQueue);
-
   if (hitCellsQueue.length > 0) {
     const nextCellId = hitCellsQueue.shift();
     const { row, col } = getRowAndCol(nextCellId);
     const cell = document.querySelector(`#gameboard-p-${nextCellId}`);
-    if (cell) {
+    if (cell && !unavailableCells.has(nextCellId)) {
       handleComputerClick(cell);
       return;
     }
   }
 
+  let availableCells = [];
+  const cells = document.querySelectorAll('.cell');
   cells.forEach((cell) => {
     if (
       !cell.classList.contains('non-ship-cell') &&
@@ -96,17 +104,13 @@ function handleComputerClick(cell) {
     playerBoard.receiveAttack(row, col);
     hit = true;
     ifWins(playerBoard, 'Computer');
-    enqueueAdjacentCells(row, col);
   } else {
     box.classList.add('non-ship-cell');
   }
-  console.log(playerBoard.board);
 
   if (hit) {
-    // If the computer hits a ship, it gets another turn
     setTimeout(() => computerMove(playerBoard), 1000); // Add a delay for better UX
   } else {
-    // Switch back to player's turn
     isPlayerTurn = true;
     whoseTurnUpdater();
   }
@@ -141,11 +145,9 @@ function handlePlayerClickCaller(cell, id, boardOfComputer) {
   }
 }
 
-function determineShipHit() {}
-
 function ifWins(board, name) {
   if (board.allShipsSunk()) {
-    changeTextContentofh2(name);
+    showWinnerUtil(name);
   }
 }
 
@@ -154,23 +156,24 @@ function changeTextContentofh2(name) {
   h2.textContent = `${name} Wins!`;
 }
 
-function enqueueAdjacentCells(row, col) {
-  const directions = [
-    { row: -1, col: 0 }, // Up
-    { row: 1, col: 0 }, // Down
-    { row: 0, col: -1 }, // Left
-    { row: 0, col: 1 }, // Right
-  ];
+function showWinnerUtil(name) {
+  const div = document.querySelector('.parent-of-announcement-div');
+  if (div) {
+    // Ensure the div exists
+    addClass(div, 'game-over');
+    div.style.display = 'flex';
+    setTextUtil(name, div);
+    canClick = false;
+  } else {
+    console.error('Announcement div not found');
+  }
+}
 
-  directions.forEach((direction) => {
-    const newRow = row + direction.row;
-    const newCol = col + direction.col;
-    const newCellId = newRow * 10 + newCol;
+function setTextUtil(name, div) {
+  div.querySelector('h2').textContent = name + ' Wins!';
+}
 
-    if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
-      if (!unavailableCells.has(newCellId)) {
-        hitCellsQueue.push(newCellId);
-      }
-    }
-  });
+function setTurnUtil() {
+  const whoseTurnDivH2 = document.querySelector('.whoseTurn > h2');
+  whoseTurnDivH2.textContent('Your Turn');
 }
