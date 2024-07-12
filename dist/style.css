@@ -112,11 +112,9 @@ h2 {
 }
 
 .uwu {
-<<<<<<< HEAD
+
     background-image: url(/assets/dot.png);
-=======
     background-image: url(./assets/dot.png);
->>>>>>> c11849d34abb3ac56947abaf11602d89e19e9a5f
     background-repeat: no-repeat;
     background-size: cover;
     background-color: antiquewhite;
@@ -138,9 +136,7 @@ h2 {
    background-color: rgb(243, 70, 70); 
 }
 
-.target {
-    
-}
+.targe
 
 .announce-winner {
     position: absolute;
