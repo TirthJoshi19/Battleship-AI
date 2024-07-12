@@ -73,7 +73,7 @@ h2 {
 }
 .sunk {
    background-color: rgb(243, 70, 70);
-   background-image: url('/assets/icons8-x-90.png');
+   background-image: url('./assets/icons8-x-90.png');
    background-size: cover;
    background-repeat: no-repeat;
     
@@ -112,7 +112,11 @@ h2 {
 }
 
 .uwu {
+<<<<<<< HEAD
     background-image: url(/assets/dot.png);
+=======
+    background-image: url(./assets/dot.png);
+>>>>>>> c11849d34abb3ac56947abaf11602d89e19e9a5f
     background-repeat: no-repeat;
     background-size: cover;
     background-color: antiquewhite;
