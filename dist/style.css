@@ -102,7 +102,7 @@ h2 {
 
 .non-ship-cell {
    background-color: antiquewhite;
-   background-image: url(/assets/dot.png);
+   background-image: url(./assets/dot.png);
    background-size: contain;
    background-repeat: no-repeat;
 }
@@ -112,7 +112,7 @@ h2 {
 }
 
 .uwu {
-    background-image: url(/assets/icons8-o-67\ \(1\).png);
+    background-image: url(/assets/dot.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-color: antiquewhite;
