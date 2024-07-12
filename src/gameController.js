@@ -170,10 +170,5 @@ function showWinnerUtil(name) {
 }
 
 function setTextUtil(name, div) {
-  div.querySelector('h2').textContent = name + ' Wins!';
-}
-
-function setTurnUtil() {
-  const whoseTurnDivH2 = document.querySelector('.whoseTurn > h2');
-  whoseTurnDivH2.textContent('Your Turn');
+  div.querySelector('h2').textContent = name + ' Has Won!';
 }
